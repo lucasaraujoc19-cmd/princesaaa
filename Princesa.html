@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Minha Princesa 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#ffb6c1;
+    font-family:'Poppins',sans-serif;
+    overflow:hidden;
+    height:100dvh; /* CORREÇÃO CELULAR */
+}
+
+/* Telas */
+.screen{
+    display:none;
+    height:100dvh; /* CORREÇÃO CELULAR */
+    width:100%;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:30px;
+}
+
+.active{
+    display:flex;
+}
+
+h1{
+    color:white;
+    font-family:'Pacifico',cursive;
+    font-size:42px;
+}
+
+p{
+    color:white;
+    font-size:28px;
+    font-family:'Pacifico',cursive;
+    max-width:700px;
+    line-height:1.5;
+}
+
+button{
+    margin-top:35px;
+    padding:14px 35px;
+    border:none;
+    border-radius:30px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* SIM */
+#yes{
+    background:#ff4d6d;
+    color:white;
+}
+
+/* NÃO (corrigido para celular) */
+#no{
+    position:fixed;
+    background:white;
+    color:#ff4d6d;
+    top:60%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+/* Urso */
+.bear img{
+    width:230px;
+}
+
+/* Presente */
+.gift{
+    font-size:70px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.message{
+    display:none;
+    margin-top:30px;
+    font-size:52px;
+    color:white;
+    font-family:'Pacifico',cursive;
+}
+
+/* Confetes */
+.confetti{
+    position:fixed;
+    width:12px;
+    height:12px;
+    top:-20px;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TELA 1 -->
+<div class="screen active" id="screen1">
+
+<h1>Oi princesa 💖<br><br>Você está bem hoje?</h1>
+
+<button id="yes">Sim ❤️</button>
+<button id="no">Não 😒</button>
+
+</div>
+
+<!-- TELA 2 -->
+<div class="screen" id="screen2">
+
+<p>
+Espero que esteja bem kkk... 💖
+<br><br>
+Mas independente de como estiver,
+eu quero que saiba que...
+</p>
+
+</div>
+
+<!-- TELA 3 -->
+<div class="screen" id="screen3">
+
+<div class="bear">
+<img src="https://i.pinimg.com/originals/83/a8/a9/83a8a9ee94f941a41e840c007499fe55.gif">
+</div>
+
+<div class="gift" onclick="abrirPresente()">🎁</div>
+
+<div class="message" id="msg">
+Você é perfeita 💖
+</div>
+
+</div>
+
+<script>
+
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+
+yes.onclick = () => {
+
+document.getElementById("screen1").classList.remove("active");
+document.getElementById("screen2").classList.add("active");
+
+setTimeout(() => {
+
+document.getElementById("screen2").classList.remove("active");
+document.getElementById("screen3").classList.add("active");
+
+}, 8000);
+
+};
+
+/* botão NÃO funcionando no celular + PC */
+function fugir(){
+
+let largura = window.innerWidth - no.offsetWidth - 20;
+let altura = window.innerHeight - no.offsetHeight - 20;
+
+let x = Math.random() * largura;
+let y = Math.random() * altura;
+
+if(x < 0) x = 20;
+if(y < 0) y = 20;
+
+no.style.left = x + "px";
+no.style.top = y + "px";
+}
+
+/* PC */
+no.addEventListener("mouseover", fugir);
+
+/* CELULAR */
+no.addEventListener("touchstart", function(e){
+e.preventDefault();
+fugir();
+});
+
+/* fallback */
+no.addEventListener("click", function(e){
+e.preventDefault();
+fugir();
+});
+
+function abrirPresente(){
+
+document.getElementById("msg").style.display = "block";
+
+confetes();
+
+}
+
+function confetes(){
+
+const cores = [
+"#ff4d6d",
+"#ff85a2",
+"#ffd6e0",
+"#ffffff",
+"#ff69b4",
+"#ffc0cb"
+];
+
+for(let i = 0; i < 180; i++){
+
+let c = document.createElement("div");
+
+c.className = "confetti";
+
+c.style.left = Math.random() * 100 + "vw";
+c.style.background = cores[Math.floor(Math.random() * cores.length)];
+c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+document.body.appendChild(c);
+
+setTimeout(() => {
+c.remove();
+}, 4000);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
